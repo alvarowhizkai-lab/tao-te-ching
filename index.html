@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🧧 道德经学习 - 背诵·记忆·理解</title>
+    <title>🧧 道德经 - 背诵·记忆·理解</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -13,29 +13,25 @@
         .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(0,0,0,0.2); }
         .chapter-btn { transition: all 0.2s; }
         .chapter-btn:hover { transform: scale(1.05); }
-        .progress-ring { transition: stroke-dashoffset 0.5s ease; }
         .fade-in { animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .pinyin { color: #888; font-size: 0.9em; }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="min-h-screen">
     <div id="app" class="max-w-6xl mx-auto p-4">
-        <!-- Header -->
         <header class="text-center py-8">
             <h1 class="text-4xl md:text-5xl font-bold text-slate-800 mb-2">🧧 道德经</h1>
             <p class="text-slate-500">背诵 · 记忆 · 理解</p>
-            <div class="flex justify-center gap-4 mt-4">
-                <button onclick="showMode('flashcard')" class="btn bg-orange-500 text-white px-6 py-2 rounded-full font-bold">📇 闪卡</button>
-                <button onclick="showMode('memorize')" class="btn bg-green-500 text-white px-6 py-2 rounded-full font-bold">🎯 背诵</button>
-                <button onclick="showMode('quiz')" class="btn bg-blue-500 text-white px-6 py-2 rounded-full font-bold">✍️ 测验</button>
-                <button onclick="showMode('read')" class="btn bg-purple-500 text-white px-6 py-2 rounded-full font-bold">📖 研读</button>
+            <div class="flex justify-center gap-4 mt-4 flex-wrap">
+                <button onclick="showMode('flashcard')" class="btn bg-orange-500 text-white px-6 py-2 rounded-full font-bold mb-2">📇 闪卡</button>
+                <button onclick="showMode('memorize')" class="btn bg-green-500 text-white px-6 py-2 rounded-full font-bold mb-2">🎯 背诵</button>
+                <button onclick="showMode('quiz')" class="btn bg-blue-500 text-white px-6 py-2 rounded-full font-bold mb-2">✍️ 测验</button>
+                <button onclick="showMode('read')" class="btn bg-purple-500 text-white px-6 py-2 rounded-full font-bold mb-2">📖 研读</button>
             </div>
         </header>
 
-        <!-- Progress Bar -->
         <div class="card rounded-2xl p-4 mb-6">
             <div class="flex justify-between items-center mb-2">
                 <span class="font-bold text-slate-700">学习进度</span>
@@ -46,25 +42,23 @@
             </div>
         </div>
 
-        <!-- Flashcard Mode -->
         <div id="flashcard-mode" class="fade-in">
             <div class="card rounded-3xl p-8 text-center min-h-[400px] flex flex-col justify-center">
-                <div id="flashcard" class="cursor-pointer" onclick="flipCard()">
+                <div id="flashcard">
                     <div class="text-6xl mb-6">📇</div>
                     <h2 id="fc-chapter" class="text-2xl font-bold text-slate-800 mb-4">第1章</h2>
-                    <p id="fc-content" class="text-xl text-slate-600 leading-loose">道可道，非常道；名可名，非常名。</p>
-                    <p id="fc-pinyin" class="pinyin mt-4 italic">dào kě dào，fēi cháng dào；míng kě míng，fēi cháng míng。</p>
+                    <p id="fc-content" class="text-xl md:text-2xl text-slate-700 leading-loose">道可道，非常道；名可名，非常名。</p>
+                    <p id="fc-translation" class="hidden mt-6 text-slate-500 italic leading-relaxed">可以说出来的道，就不是永恒的道；可以叫出来的名，就不是永恒的名。</p>
                 </div>
-                <div class="flex justify-center gap-4 mt-8">
+                <div class="flex justify-center gap-4 mt-8 flex-wrap">
                     <button onclick="prevCard()" class="btn bg-slate-300 text-slate-700 px-6 py-3 rounded-full font-bold">⬅️ 上一章</button>
-                    <button onclick="markRemembered()" class="btn bg-green-500 text-white px-8 py-3 rounded-full font-bold">✅ 已记住</button>
+                    <button onclick="flipCard()" class="btn bg-yellow-500 text-white px-6 py-3 rounded-full font-bold">👁️ 释义</button>
+                    <button onclick="markRemembered()" class="btn bg-green-500 text-white px-8 py-3 rounded-full font-bold">✅ 已掌握</button>
                     <button onclick="nextCard()" class="btn bg-orange-500 text-white px-6 py-3 rounded-full font-bold">下一章 ➡️</button>
                 </div>
-                <p class="text-slate-400 mt-4 text-sm">💡 点击卡片查看注释</p>
             </div>
         </div>
 
-        <!-- Memorize Mode -->
         <div id="memorize-mode" class="hidden fade-in">
             <div class="card rounded-3xl p-8 min-h-[500px]">
                 <div class="flex justify-between items-center mb-6">
@@ -73,41 +67,31 @@
                     <button onclick="nextMemorize()" class="btn bg-slate-200 px-4 py-2 rounded-full">➡️</button>
                 </div>
                 <div id="mem-content" class="text-center">
-                    <p class="text-2xl text-slate-700 leading-loose mb-6">道可道，非常道；名可名，非常名。</p>
+                    <p id="mem-text" class="text-xl md:text-2xl text-slate-700 leading-loose mb-6">道可道，非常道；名可名，非常名。</p>
                     <button onclick="toggleMemorizeHint()" class="btn bg-yellow-500 text-white px-6 py-2 rounded-full font-bold mb-4">💡 提示</button>
                     <p id="mem-hint" class="hidden text-slate-500 italic mb-6">这是道德经的第一章，讨论了道的本质...</p>
                 </div>
-                <div class="flex justify-center gap-4 mt-6">
+                <div class="flex justify-center gap-4 mt-6 flex-wrap">
                     <button onclick="toggleMemorizeShow()" class="btn bg-blue-500 text-white px-6 py-3 rounded-full font-bold">👁️ 显示/隐藏</button>
                     <button onclick="markMemorized()" class="btn bg-green-500 text-white px-6 py-3 rounded-full font-bold">✅ 背诵完成</button>
                 </div>
             </div>
         </div>
 
-        <!-- Quiz Mode -->
         <div id="quiz-mode" class="hidden fade-in">
             <div class="card rounded-3xl p-8 min-h-[400px]">
                 <h2 class="text-2xl font-bold text-slate-800 mb-6 text-center">✍️ 章节测验</h2>
                 <div id="quiz-container" class="text-center">
                     <p class="text-lg text-slate-600 mb-6">请选择要测验的章节：</p>
-                    <div class="grid grid-cols-5 gap-2 max-w-md mx-auto">
-                        <button onclick="startQuiz(1)" class="chapter-btn bg-slate-200 py-2 rounded-lg font-bold">1</button>
-                        <button onclick="startQuiz(2)" class="chapter-btn bg-slate-200 py-2 rounded-lg font-bold">2</button>
-                        <button onclick="startQuiz(3)" class="chapter-btn bg-slate-200 py-2 rounded-lg font-bold">3</button>
-                        <button onclick="startQuiz(4)" class="chapter-btn bg-slate-200 py-2 rounded-lg font-bold">4</button>
-                        <button onclick="startQuiz(5)" class="chapter-btn bg-slate-200 py-2 rounded-lg font-bold">5</button>
-                        <button onclick="startQuiz(6)" class="chapter-btn bg-slate-200 py-2 rounded-lg font-bold">6</button>
-                        <button onclick="startQuiz(7)" class="chapter-btn bg-slate-200 py-2 rounded-lg font-bold">7</button>
-                        <button onclick="startQuiz(8)" class="chapter-btn bg-slate-200 py-2 rounded-lg font-bold">8</button>
-                        <button onclick="startQuiz(9)" class="chapter-btn bg-slate-200 py-2 rounded-lg font-bold">9</button>
-                        <button onclick="startQuiz(10)" class="chapter-btn bg-slate-200 py-2 rounded-lg font-bold">10</button>
-                    </div>
+                    <div class="grid grid-cols-5 gap-2 max-w-md mx-auto" id="quiz-buttons"></div>
                 </div>
                 <div id="quiz-question" class="hidden mt-6">
-                    <p id="quiz-text" class="text-xl text-slate-700 mb-6">请填空：道可道，_____？</p>
+                    <p id="quiz-text" class="text-lg md:text-xl text-slate-700 mb-6">请填空：</p>
                     <input type="text" id="quiz-answer" class="w-full max-w-md mx-auto block p-4 border-2 border-slate-300 rounded-xl text-center text-lg mb-4" placeholder="输入答案...">
-                    <button onclick="checkQuiz()" class="btn bg-green-500 text-white px-8 py-3 rounded-full font-bold">✅ 提交</button>
-                    <button onclick="showQuizAnswer()" class="btn bg-red-500 text-white px-6 py-3 rounded-full font-bold ml-4">❌ 显示答案</button>
+                    <div class="flex justify-center gap-4 flex-wrap">
+                        <button onclick="checkQuiz()" class="btn bg-green-500 text-white px-8 py-3 rounded-full font-bold">✅ 提交</button>
+                        <button onclick="showQuizAnswer()" class="btn bg-red-500 text-white px-6 py-3 rounded-full font-bold">❌ 显示答案</button>
+                    </div>
                 </div>
                 <div id="quiz-result" class="hidden mt-6 text-center">
                     <p id="quiz-result-text" class="text-xl font-bold"></p>
@@ -116,103 +100,90 @@
             </div>
         </div>
 
-        <!-- Read Mode -->
         <div id="read-mode" class="hidden fade-in">
             <div class="card rounded-3xl p-8 min-h-[500px]">
                 <h2 class="text-2xl font-bold text-slate-800 mb-6 text-center">📖 研读</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                    <button onclick="filterChapters('all')" class="btn bg-slate-700 text-white py-2 rounded-full">全部</button>
-                    <button onclick="filterChapters('mastered')" class="btn bg-green-500 text-white py-2 rounded-full">已掌握</button>
-                    <button onclick="filterChapters('learning')" class="btn bg-yellow-500 text-white py-2 rounded-full">学习中</button>
-                    <button onclick="filterChapters('new')" class="btn bg-orange-500 text-white py-2 rounded-full">未开始</button>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                    <button onclick="filterChapters('all')" class="btn bg-slate-700 text-white py-2 rounded-full text-sm">全部</button>
+                    <button onclick="filterChapters('mastered')" class="btn bg-green-500 text-white py-2 rounded-full text-sm">已掌握</button>
+                    <button onclick="filterChapters('learning')" class="btn bg-yellow-500 text-white py-2 rounded-full text-sm">学习中</button>
+                    <button onclick="filterChapters('new')" class="btn bg-orange-500 text-white py-2 rounded-full text-sm">未开始</button>
                 </div>
-                <div id="chapter-list" class="max-h-[400px] overflow-y-auto scrollbar-hide space-y-3">
-                    <!-- Chapters will be rendered here -->
-                </div>
+                <div id="chapter-list" class="max-h-[500px] overflow-y-auto scrollbar-hide space-y-3"></div>
             </div>
         </div>
 
-        <!-- Footer -->
         <footer class="text-center py-8 text-slate-400 text-sm">
-            <p>🧧 道德经学习助手 | 坚持就是胜利</p>
+            <p>🧧 道德经学习助手 | 完整原文版</p>
             <p class="mt-2">💾 学习进度自动保存</p>
         </footer>
     </div>
 
     <script>
-        // Tao Te Ching Data
         const chapters = [
-            { id: 1, title: "第1章 - 道之名", content: "道可道，非常道；名可名，非常名。", pinyin: "dào kě dào，fēi cháng dào；míng kě míng，fēi cháng míng。", yi: "可以说出来的道，就不是永恒的道；可以叫出来的名，就不是永恒的名。", keywords: ["道", "名", "玄之又玄"], tips: "真理无法用语言完全表达", key: "道可道，非常道" },
-            { id: 2, title: "第2章 - 美丑善恶", content: "天下皆知美之为美，斯恶已；皆知善之为善，斯不善已。", pinyin: "tiān xià jiē zhī měi zhī wéi měi，sī è yǐ；jiē zhī shàn zhī wéi shàn，sī bù shàn yǐ。", yi: "天下人都知道美之所以为美，丑的就出现了；都知道善之所以为善，恶的就出现了。", keywords: ["美丑", "相对论", "辩证"], tips: "美与丑是相对的，对立统一", key: "天下皆知美之为美" },
-            { id: 3, title: "第3章 - 无为而治", content: "不尚贤，使民不争；不贵难得之货，使民不为盗；不见可欲，使民心不乱。", pinyin: "bù shàng xián，shǐ mín bù zhēng；bù guì nán dé zhī huò，shǐ mín bù wéi dào；bù jiàn kě yù，shǐ mín xīn bù luàn。", yi: "不推崇有才德的人，使民众不争功名；不珍贵难得的财货，使民众不做盗贼；不显耀能引起贪心的事物，使民众心性不乱。", keywords: ["无为", "不争", "清静"], tips: "减少欲望，社会太平；无为并非不为", key: "不尚贤，使民不争" },
-            { id: 4, title: "第4章 - 道之冲", content: "道冲而用之或不盈，渊兮似万物之宗。", pinyin: "dào chōng ér yòng zhī huò bù yíng，yuān xī sì wàn wù zhī zōng。", yi: "道是空虚的，但它的作用无穷无尽；深邃啊，好像万物的祖先。", keywords: ["空虚", "本源", "深渊"], tips: "道是虚空的，却用之不竭，万物的根源", key: "道冲而用之或不盈" },
-            { id: 5, title: "第5章 - 天地不仁", content: "天地不仁，以万物为刍狗；圣人不仁，以百姓为刍狗。", pinyin: "tiān dì bù rén，yǐ wàn wù wéi chú gǒu；shèng rén bù rén，yǐ bǎi xìng wéi chú gǒu。", yi: "天地无所谓仁慈，对待万物像对待草狗一样；圣人也无所谓仁慈，对待百姓也像对待草狗一样。", keywords: ["平等", "自然", "无偏私"], tips: "天地对万物一视同仁，顺其自然", key: "天地不仁，以万物为刍狗" },
-            { id: 6, title: "第6章 - 玄牝", content: "谷神不死，是谓玄牝，玄牝之门，是谓天地根。", pinyin: "gǔ shén bù sǐ，shì wèi xuán pìn，xuán pìn zhī mén，shì wèi tiān dì gēn。", yi: "空虚的神永不死灭，这就是微妙的母性，微妙母性的门户，就是天地的根源。", keywords: ["生育", "根源", "永恒"], tips: "道是万物生生不息的源头，玄牝=造物主", key: "谷神不死，是谓玄牝" },
-            { id: 7, title: "第7章 - 天长地久", content: "天长地久，天地所以能长且久者，以其不自生，故能长生。", pinyin: "tiān cháng dì jiǔ，tiān dì suǒ yǐ néng cháng qiě jiǔ zhě，yǐ qí bù zì shēng，gù néng cháng shēng。", yi: "天长地久，天地之所以能长久存在，是因为它不是为了自己而生存，所以能够长久存在。", keywords: ["无私", "长久", "利他"], tips: "无私才能长久，利他=利己", key: "以其不自生，故能长生" },
-            { id: 8, title: "第8章 - 上善若水", content: "上善若水，水善利万物而不争。", pinyin: "shàng shàn ruò shuǐ，shuǐ shàn lì wàn wù ér bù zhēng。", yi: "最上等的善就像水一样，水善于滋润万物而不与万物相争。", keywords: ["水", "善利", "不争"], tips: "水的七种美德，不争是最高境界", key: "上善若水，水善利万物而不争" },
-            { id: 9, title: "第9章 - 功成身退", content: "持而盈之，不如其已；揣而锐之，不可长保。", pinyin: "chí ér yíng zhī，bù rú qí yǐ；chuǎi ér ruì zhī，bù kě zhǎng bǎo。", yi: "保持盈满，不如适可而止；锤炼使它锐利，不能长久保持。", keywords: ["知止", "功成身退", "适可而止"], tips: "满则溢，锐则折，知道适可而止", key: "持而盈之，不如其已" },
-            { id: 10, title: "第10章 - 营魄抱一", content: "载营魄抱一，能无离乎？专气致柔，能如婴儿乎？", pinyin: "zài yíng pào yī，néng wú lí hū？zhuān qì zhì róu，néng rú yīng ér hū？", yi: "精神和形体合一，能不分离吗？聚集精气达到柔和，能像婴儿一样吗？", keywords: ["身心合一", "柔弱", "婴儿"], tips: "返璞归真，柔软胜刚强", key: "载营魄抱一，能无离乎" },
-            { id: 11, title: "第11章 - 有无相生", content: "三十辐共一毂，当其无，有车之用。", pinyin: "sān shí fú gòng yī gū，dāng qí wú，yǒu chē zhī yòng。", yi: "三十根辐条汇集在一个车毂上，正是因为车毂中间是空的，才能发挥车的作用。", keywords: ["有与无", "虚空", "有用"], tips: "碗的用途在于中间的空，无用之用", key: "三十辐共一毂，当其无" },
-            { id: 12, title: "第12章 - 五色令人目盲", content: "五色令人目盲，五音令人耳聋，五味令人口爽。", pinyin: "wǔ sè lìng rén mù máng，wǔ yīn lìng rén ěr lóng，wǔ wèi lìng rén kǒu shuǎng。", yi: "五颜缤纷的色彩使人眼花缭乱，各种声音使人听觉迟钝，各种滋味使人味觉错乱。", keywords: ["欲望", "节制", "返璞归真"], tips: "感官刺激的害处，简单生活的智慧", key: "五色令人目盲" },
-            { id: 13, title: "第13章 - 宠辱若惊", content: "宠辱若惊，贵大患若身。", pinyin: "chǒng rǔ ruò jīng，guì dà huàn ruò shēn。", yi: "得到宠爱和遭受屈辱都感到惊惶，重视大患像重视自身一样。", keywords: ["宠辱", "患得患失", "超脱"], tips: "放下对得失的执着", key: "宠辱若惊，贵大患若身" },
-            { id: 14, title: "第14章 - 夷希微", content: "视之不见名曰夷，听之不闻名曰希，搏之不得名曰微。", pinyin: "shì zhī bù jiàn míng yī yí，tīng zhī bù wén míng yī xī，bó zhī bù dé míng yī wēi。", yi: "看它看不见叫'夷'，听它听不到叫'希'，摸它摸不着叫'微'。", keywords: ["道之形", "虚无", "不可感知"], tips: "道是无形无相的，超越感官", key: "视之不见名曰夷" },
-            { id: 15, title: "第15章 - 善为道者", content: "古之善为道者，微妙玄通，深不可识。", pinyin: "gǔ zhī shàn wèi dào zhě，wēi miào xuán tōng，shēn bù kě shí。", yi: "古代善于行道的人，微妙通达，深邃得无法认识。", keywords: ["行道者", "微妙", "高深"], tips: "得道之人的特征，大智若愚", key: "古之善为道者" },
-            { id: 16, title: "第16章 - 复命曰常", content: "致虚极，守静笃。万物并作，吾以观其复。", pinyin: "zhì xū jí，shǒu jìng dǔ。wàn wù bìng zuò，wú yǐ guān qí fù。", yi: "达到极度空虚，保持极度宁静。万物蓬勃生长，我因此观察它们的循环往复。", keywords: ["虚静", "复归", "常道"], tips: "静观万物变化，复归本性是常道", key: "致虚极，守静笃" },
-            { id: 17, title: "第17章 - 太上", content: "太上，下知有之。其次，亲而誉之。", pinyin: "tài shàng，xià zhī yǒu zhī。qí cì，qīn ér yù zhī。", yi: "最好的统治者，民众只知道有他存在；其次的，民众亲近他赞美他。", keywords: ["统治者", "无为而治"], tips: "最高境界是无为而治，润物细无声", key: "太上，下知有之" },
-            { id: 18, title: "第18章 - 大道废", content: "大道废，有仁义；慧智出，有大伪。", pinyin: "dào dào fèi，yǒu rén yì；huì zhì chū，yǒu dà wěi。", yi: "大道被废弃了，才出现了仁义；智慧出现了，才有了严重的虚伪。", keywords: ["仁义", "智慧", "伪善"], tips: "提倡什么说明缺什么，返璞归真", key: "大道废，有仁义" },
-            { id: 19, title: "第19章 - 绝圣弃智", content: "绝圣弃智，民利百倍；绝仁弃义，民复孝慈。", pinyin: "jué shèng qì zhì，mín lì bǎi bèi；jué rén qì yì，mín fù xiào cí。", yi: "抛弃聪明智巧，民众就有百倍的利益；抛弃仁义，民众就能恢复慈孝的本性。", keywords: ["返璞归真", "纯朴", "孝慈"], tips: "回归纯朴，本性才是真", key: "绝圣弃智，民利百倍" },
-            { id: 20, title: "第20章 - 绝学无忧", content: "绝学无忧。唯之与阿，相去几何？", pinyin: "jué xué wú yōu。wéi zhī yǔ ā，xiāng qù jǐ hé？", yi: "抛弃学问就没有忧虑了。恭敬地答应与怠慢地答应，相差多少？", keywords: ["学无忧", "无为", "淡然"], tips: "少私寡欲，超然是非得失", key: "绝学无忧" }
+            { id: 1, title: "第1章", content: "道可道，非常道；名可名，非常名。无名天地之始；有名万物之母。故常无欲，以观其妙；常有欲，以观其徼。此两者同出而异名，同谓之玄，玄之又玄，众妙之门。", translation: "可以说出来的道，就不是永恒的道；可以叫出来的名，就不是永恒的名。无名是天地的开始，有名是万物的根源。", key: "道可道" },
+            { id: 2, title: "第2章", content: "天下皆知美之为美，斯恶已；皆知善之为善，斯不善已。故有无相生，难易相成，长短相较，高下相倾，音声相和，前后相随。是以圣人处无为之事，行不言之教；万物作焉而不辞，生而不有，为而不恃，功成而弗居。夫唯弗居，是以不去。", translation: "天下人都知道美之所以为美，丑的就出现了；都知道善之所以为善，恶的就出现了。", key: "天下皆知美之为美" },
+            { id: 3, title: "第3章", content: "不尚贤，使民不争；不贵难得之货，使民不为盗；不见可欲，使民心不乱。是以圣人之治，虚其心，实其腹，弱其志，强其骨。常使民无知无欲，使夫知者不敢为也。为无为，则无不治。", translation: "不推崇有才德的人，使民众不争功名。", key: "不尚贤" },
+            { id: 4, title: "第4章", content: "道冲而用之或不盈，渊兮似万物之宗。挫其锐，解其纷，和其光，同其尘。湛兮似或存，吾不知谁之子，象帝之先。", translation: "道是空虚的，但它的作用无穷无尽，深邃啊好像万物的祖先。", key: "道冲而用之" },
+            { id: 5, title: "第5章", content: "天地不仁，以万物为刍狗；圣人不仁，以百姓为刍狗。天地之间，其犹橐籥乎？虚而不屈，动而愈出。多言数穷，不如守中。", translation: "天地无所谓仁慈，对待万物像对待草狗一样。", key: "天地不仁" },
+            { id: 6, title: "第6章", content: "谷神不死，是谓玄牝。玄牝之门，是谓天地根。绵绵若存，用之不勤。", translation: "空虚的神永不死灭，这就叫做微妙的母性。", key: "谷神不死" },
+            { id: 7, title: "第7章", content: "天长地久。天地所以能长且久者，以其不自生，故能长生。是以圣人后其身而身先，外其身而身存。非以其无私邪？故能成其私。", translation: "天长地久。天地之所以能长久存在，是因为它不是为了自己而生存。", key: "天长地久" },
+            { id: 8, title: "第8章", content: "上善若水。水善利万物而不争，处众人之所恶，故几于道。居善地，心善渊，与善仁，言善信，正善治，事善能，动善时。夫唯不争，故无尤。", translation: "最上等的善就像水一样。水善于滋润万物而不与万物相争。", key: "上善若水" },
+            { id: 9, title: "第9章", content: "持而盈之，不如其已。揣而锐之，不可长保。金玉满堂，莫之能守。富贵而骄，自遗其咎。功遂身退，天之道也。", translation: "保持盈满，不如适可而止。", key: "持而盈之" },
+            { id: 10, title: "第10章", content: "载营魄抱一，能无离乎？专气致柔，能如婴儿乎？涤除玄鉴，能无疵乎？爱民治国，能无为乎？天门开阖，能为雌乎？明白四达，能无知乎？", translation: "精神和形体合一，能不分离吗？", key: "载营魄抱一" },
+            { id: 11, title: "第11章", content: "三十辐共一毂，当其无，有车之用。埏埴以为器，当其无，有器之用。凿户牖以为室，当其无，有室之用。故有之以为利，无之以为用。", translation: "三十根辐条汇集在一个车毂上，正是因为车毂中间是空的，才能发挥车的作用。", key: "三十辐共一毂" },
+            { id: 12, title: "第12章", content: "五色令人目盲，五音令人耳聋，五味令人口爽，驰骋畋猎令人心发狂，难得之货令人行妨。是以圣人为腹不为目，故去彼取此。", translation: "五颜缤纷的色彩使人眼花缭乱。", key: "五色令人目盲" },
+            { id: 13, title: "第13章", content: "宠辱若惊，贵大患若身。何谓宠辱若惊？宠为下，得之若惊，失之若惊，是谓宠辱若惊。何谓贵大患若身？吾所以有大患者，为吾有身，及吾无身，吾有何患？故贵以身为天下，若可寄天下；爱以身为天下，若可托天下。", translation: "得到宠爱和遭受屈辱都感到惊惶。", key: "宠辱若惊" },
+            { id: 14, title: "第14章", content: "视之不见名曰夷，听之不闻名曰希，搏之不得名曰微。此三者不可致诘，故混而为一。其上不皦，其下不昧，绳绳兮不可名，复归于无物。是谓无状之状，无物之象，是谓恍惚。", translation: "看它看不见叫'夷'，听它听不到叫'希'，摸它摸不着叫'微'。", key: "视之不见" },
+            { id: 15, title: "第15章", content: "古之善为道者，微妙玄通，深不可识。夫唯不可识，故强为之容：豫兮若冬涉川，犹兮若畏四邻，俨兮其若客，涣兮若冰之将释，敦兮其若朴，旷兮其若谷，混兮其若浊。", translation: "古代善于行道的人，微妙通达，深邃得无法认识。", key: "古之善为道者" },
+            { id: 16, title: "第16章", content: "致虚极，守静笃。万物并作，吾以观复。夫物芸芸，各复归其根。归根曰静，静曰复命。复命曰常，知常曰明。不知常，妄作凶。知常容，容乃公，公乃王，王乃天，天乃道，道乃久，殁身不殆。", translation: "达到极度空虚，保持极度宁静。", key: "致虚极" },
+            { id: 17, title: "第17章", content: "太上，下知有之。其次，亲而誉之。其次，畏之。其次，侮之。信不足焉，有不信焉。悠兮其贵言。功成事遂，百姓皆谓我自然。", translation: "最好的统治者，民众只知道有他存在。", key: "太上" },
+            { id: 18, title: "第18章", content: "大道废，有仁义；智慧出，有大伪；六亲不和，有孝慈；国家昏乱，有忠臣。", translation: "大道废弃了，才出现了仁义。", key: "大道废" },
+            { id: 19, title: "第19章", content: "绝圣弃智，民利百倍；绝仁弃义，民复孝慈；绝巧弃利，盗贼无有。此三者以为文不足，故令有所属：见素抱朴，少私寡欲，绝学无忧。", translation: "抛弃聪明智巧，民众就有百倍的利益。", key: "绝圣弃智" },
+            { id: 20, title: "第20章", content: "唯之与阿，相去几何？善之与恶，相去若何？人之所畏，不可不畏。荒兮，其未央哉！众人熙熙，如享太牢，如春登台。我独泊兮，其未兆。", translation: "应诺和怠慢，相差多少？", key: "唯之与阿" }
         ];
 
-        // State
         let currentMode = 'flashcard';
         let currentChapter = 0;
         let isCardFlipped = false;
         let quizChapter = 0;
         let progress = JSON.parse(localStorage.getItem('taoProgress') || '{}');
 
-        // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             updateProgress();
             renderChapterList();
+            renderQuizButtons();
         });
 
-        // Mode switching
         function showMode(mode) {
             document.querySelectorAll('[id$="-mode"]').forEach(el => el.classList.add('hidden'));
             document.getElementById(`${mode}-mode`).classList.remove('hidden');
             currentMode = mode;
         }
 
-        // Flashcard functions
         function flipCard() {
             isCardFlipped = !isCardFlipped;
-            const card = document.getElementById('flashcard');
-            if (isCardFlipped) {
-                card.querySelector('#fc-content').textContent = chapters[currentChapter].yi;
-                card.querySelector('#fc-pinyin').textContent = chapters[currentChapter].keywords.join(' | ');
-            } else {
-                card.querySelector('#fc-content').textContent = chapters[currentChapter].content;
-                card.querySelector('#fc-pinyin').textContent = chapters[currentChapter].pinyin;
-            }
+            document.getElementById('fc-translation').classList.toggle('hidden', !isCardFlipped);
         }
 
         function nextCard() {
             currentChapter = (currentChapter + 1) % chapters.length;
             isCardFlipped = false;
+            document.getElementById('fc-translation').classList.add('hidden');
             updateFlashcard();
         }
 
         function prevCard() {
             currentChapter = (currentChapter - 1 + chapters.length) % chapters.length;
             isCardFlipped = false;
+            document.getElementById('fc-translation').classList.add('hidden');
             updateFlashcard();
         }
 
         function updateFlashcard() {
             document.getElementById('fc-chapter').textContent = chapters[currentChapter].title;
             document.getElementById('fc-content').textContent = chapters[currentChapter].content;
-            document.getElementById('fc-pinyin').textContent = chapters[currentChapter].pinyin;
+            document.getElementById('fc-translation').textContent = chapters[currentChapter].translation;
         }
 
         function markRemembered() {
@@ -222,7 +193,6 @@
             nextCard();
         }
 
-        // Memorize functions
         function nextMemorize() {
             currentChapter = (currentChapter + 1) % chapters.length;
             updateMemorize();
@@ -235,13 +205,12 @@
 
         function updateMemorize() {
             document.getElementById('mem-chapter').textContent = chapters[currentChapter].title;
-            document.getElementById('mem-content').querySelector('p:first-of-type').textContent = chapters[currentChapter].content;
+            document.getElementById('mem-text').textContent = chapters[currentChapter].content;
             document.getElementById('mem-hint').classList.add('hidden');
         }
 
         function toggleMemorizeShow() {
-            const el = document.getElementById('mem-content').querySelector('p:first-of-type');
-            el.classList.toggle('opacity-20');
+            document.getElementById('mem-text').classList.toggle('opacity-20');
         }
 
         function toggleMemorizeHint() {
@@ -255,31 +224,49 @@
             nextMemorize();
         }
 
-        // Quiz functions
+        function renderQuizButtons() {
+            const container = document.getElementById('quiz-buttons');
+            chapters.forEach(ch => {
+                const btn = document.createElement('button');
+                btn.className = 'chapter-btn bg-slate-200 py-2 rounded-lg font-bold hover:bg-orange-400 hover:text-white';
+                btn.textContent = ch.id;
+                btn.onclick = () => startQuiz(ch.id);
+                container.appendChild(btn);
+            });
+        }
+
         function startQuiz(chapterId) {
             quizChapter = chapters.find(c => c.id === chapterId);
             document.getElementById('quiz-container').classList.add('hidden');
             document.getElementById('quiz-question').classList.remove('hidden');
             document.getElementById('quiz-result').classList.add('hidden');
-            document.getElementById('quiz-text').textContent = `请填空："${quizChapter.key}" 后面是什么？`;
+            
+            const sentences = quizChapter.content.split('。').filter(s => s.length > 10);
+            if (sentences.length > 0) {
+                const target = sentences[0];
+                const words = target.split(/[，,]/);
+                const keyWord = words.find(w => w.length >= 4 && w.length <= 8) || words[0];
+                document.getElementById('quiz-text').textContent = `请填空：${target.replace(keyWord, '___')}`;
+                document.getElementById('quiz-answer').dataset.answer = keyWord;
+            }
             document.getElementById('quiz-answer').value = '';
         }
 
         function checkQuiz() {
             const answer = document.getElementById('quiz-answer').value.trim();
+            const correctAnswer = document.getElementById('quiz-answer').dataset.answer;
             const result = document.getElementById('quiz-result');
-            const resultText = document.getElementById('quiz-result-text');
             
             result.classList.remove('hidden');
             document.getElementById('quiz-question').classList.add('hidden');
             
-            if (answer.includes(quizChapter.content.split('；')[1]) || answer.includes(quizChapter.content)) {
-                resultText.textContent = '✅ 回答正确！';
-                resultText.className = 'text-xl font-bold text-green-500';
+            if (answer.includes(correctAnswer) || (correctAnswer && correctAnswer.includes(answer))) {
+                result.querySelector('#quiz-result-text').textContent = '✅ 回答正确！';
+                result.querySelector('#quiz-result-text').className = 'text-xl font-bold text-green-500';
                 progress[quizChapter.id] = 'mastered';
             } else {
-                resultText.textContent = `❌ 正确答案是：${quizChapter.content}`;
-                resultText.className = 'text-xl font-bold text-red-500';
+                result.querySelector('#quiz-result-text').textContent = `❌ 正确答案是：${correctAnswer}`;
+                result.querySelector('#quiz-result-text').className = 'text-xl font-bold text-red-500';
                 progress[quizChapter.id] = 'learning';
             }
             localStorage.setItem('taoProgress', JSON.stringify(progress));
@@ -290,8 +277,9 @@
             const result = document.getElementById('quiz-result');
             result.classList.remove('hidden');
             document.getElementById('quiz-question').classList.add('hidden');
-            result.querySelector('#quiz-result-text').textContent = `正确答案是：${quizChapter.content}`;
-            progress[quizChapter.id] = 'learning';
+            const correctAnswer = document.getElementById('quiz-answer').dataset.answer;
+            result.querySelector('#quiz-result-text').textContent = `正确答案是：${correctAnswer || '请重新测试'}`;
+            if (quizChapter.id) progress[quizChapter.id] = 'learning';
             localStorage.setItem('taoProgress', JSON.stringify(progress));
         }
 
@@ -301,7 +289,6 @@
             document.getElementById('quiz-container').classList.remove('hidden');
         }
 
-        // Read functions
         function renderChapterList(filter = 'all') {
             const container = document.getElementById('chapter-list');
             container.innerHTML = '';
@@ -322,14 +309,14 @@
                 if (filter === 'new' && progress[ch.id]) return;
 
                 const div = document.createElement('div');
-                div.className = 'card p-4 rounded-xl flex justify-between items-center cursor-pointer';
+                div.className = 'card p-4 rounded-xl flex flex-col cursor-pointer hover:shadow-lg transition-shadow';
                 div.onclick = () => { currentChapter = ch.id - 1; showMode('flashcard'); updateFlashcard(); };
                 div.innerHTML = `
-                    <div>
+                    <div class="flex justify-between items-start mb-2">
                         <h3 class="font-bold text-slate-700">${ch.title}</h3>
-                        <p class="text-sm text-slate-500 mt-1">${ch.content.substring(0, 20)}...</p>
+                        <span class="${statusClass} px-3 py-1 rounded-full text-sm font-bold">${status}</span>
                     </div>
-                    <span class="${statusClass} px-3 py-1 rounded-full text-sm font-bold">${status}</span>
+                    <p class="text-sm text-slate-500 leading-relaxed">${ch.content}</p>
                 `;
                 container.appendChild(div);
             });
@@ -339,12 +326,10 @@
             renderChapterList(type);
         }
 
-        // Progress
         function updateProgress() {
             const total = chapters.length;
             const mastered = Object.values(progress).filter(v => v === 'mastered').length;
             const percent = (mastered / total) * 100;
-            
             document.getElementById('progress-bar').style.width = `${percent}%`;
             document.getElementById('progress-text').textContent = `${mastered}/${total} 章`;
         }
